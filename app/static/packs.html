@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CDKEY Packs</title>
+<meta charset="utf-8">
+<link href="/static/lib/bootstrap3.2.0.css" rel="stylesheet" media="screen">
+<script src="/static/lib/bootstrap3.2.0.min.js"></script>
+</head>
+
+<body ng-app="cdkey">
+
+<div class="container" ng-controller="packctl">
+    <div class="row"><div class="col-xs-12 column">
+        <h1 class="text-center text-primary">CDKEY Packs</h1>
+    </div></div>
+
+    <div class="row">
+        <table class="table table-striped table-bordered">
+            <thead><tr>
+                    <th>Name</th><th>Prefix</th><th>KeyLen</th><th>PackSize</th><th>Note</th><th>Create</th><th>Operations</th>
+            </tr></thead>
+
+            <tbody><tr ng-repeat="pack in packs">
+                <td>
+                    <span class="label" ng-class="{true:'label-success', false:'label-default'}[pack.status=='ready']">{{pack.status}}</span>
+                    <span class="lead">{{pack.name}}</span>
+                </td>
+                <td>{{pack.prefix}}</td>
+                <td>{{pack.keylen}}</td>
+                <td>{{pack.packsize}}</td>
+                <td>{{pack.note}}</td>
+                <td>{{pack.createTime.substring(0,19)}}</td>
+                <td>
+                    <a href="keys?pack={{pack.name}}" target="_blank" class="btn btn-sm btn-primary" role="button">List Keys</a>
+                    <a href="#" ng-show="pack.status!='ready'" ng-click="enablePack(pack.name)" class="btn btn-sm btn-primary" role="button">Enable</a>
+                    <a href="#" ng-show="pack.status=='ready'" ng-click="disablePack(pack.name)" class="btn btn-sm btn-primary" role="button">Disable</a>
+                    <a href="#" ng-click="deletePack(pack.name)" class="btn btn-sm btn-danger" role="button">Delete</a>
+                </td>
+            </tr></tbody>
+
+            <tfoot ng-show="!packs.length"><tr>
+                <td colspan="7">No CDKEY pack yet.</td>
+            </tr></tfoot>
+        </table>
+    </div>
+
+    <div class="row">
+        <form class="form-inline">
+            <input type="text" class="form-control" placeholder="PackName" ng-model="add.name">
+            <input type="text" class="form-control" placeholder="Prefix" ng-model="add.prefix">
+            <input type="text" class="form-control" placeholder="KeyLen" ng-model="add.keylen">
+            <input type="text" class="form-control" placeholder="PackSize" ng-model="add.packsize">
+            <input type="text" class="form-control" placeholder="Note" ng-model="add.note">
+            <button class="btn btn-primary" type="button" ng-click="addPack()">Create Pack</button>
+        </form>
+    </div>
+</div>
+
+
+<script src="/static/lib/angular.1.4.0-beta.min.js"></script>
+<script src="static/controller.js"></script>
+
+</body>
+</html>

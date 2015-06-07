@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Keys in {{.PackName}}</title>
+<meta charset="utf-8">
+<style type="text/css">
+html{
+        font-family: monospace;
+}
+
+table, th, td{
+        font-size: 18px;
+        padding-right: 20px;
+}
+
+td {
+        border-top: solid 1px;
+}
+
+</style>
+</head>
+
+<body>
+        <h1>Keys in {{.PackName}}</h1>
+        <table>
+                <thead><th>#</th><th>KEY</th><th>Status</th></thead>
+                {{range $i, $k := .Keys}}
+                <tr><td>{{$i}}</td><td>{{$k.Key}}</td><td>{{$k.Status}}</td></tr>{{end}}
+        </table>
+</body>
+</html>
