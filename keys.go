@@ -14,6 +14,13 @@ const (
 	charSetLen = len(charSet)
 )
 
+// NormalizeKey transforms a key to base32 format.
+//
+// All lowercase letters will be converted to uppercase, 'O'/'o' will be replaced
+// by '0', 'L'/'l' and 'I'/'i' will be replaced by '1'.
+//
+// If the given key contains any non-digital non-alphbetic character or 'U'/'u',
+// it returns an empty string and false.
 func NormalizeKey(key string) (string, bool) {
 	key = strings.Map(func(r rune) rune {
 		switch {
@@ -43,6 +50,11 @@ func keyGen1(prefix string, rndLen int) string {
 	return string(s)
 }
 
+// KeyGenN generates a set of CDKEYs, which guaranteed to be unique and sorted.
+//
+// It returns error if 1) `prefix` is not valid base32 format; 2)
+//	32^(keylen-len(prefix)) < size * 100,
+// which means a randomly generated key has a chance more than 1% to be valid.
 func KeyGenN(prefix string, keylen, size int) ([]string, error) {
 	normalPrefix, ok := NormalizeKey(prefix)
 	if !ok {
